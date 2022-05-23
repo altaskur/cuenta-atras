@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="./assets/boostrap/css/bootstrap.css">
+
+  <!-- Bootstrap-icons -->
+  <link rel="stylesheet" href="./assets/bootstrap-icons-1.8.2/bootstrap-icons-1.8.2/bootstrap-icons.css">
+
+  <!-- hoja de estilos propia -->
+  <link rel="stylesheet" href="./assets/main.css">
+
+  <title>Cuenta atrás</title>
+</head>
+
+<body>
+
+  <form class="m-4">
+
+    <div class="row d-flex align-items-end mb-3">
+
+      <div class="col-4">
+        <label for="minutos" class="form-label"> Minutos</label>
+        <input type="number" class="form-control" id="minutos" name="minutos" min="0" value="0">
+      </div>
+
+      <div class="col-1 text-center">
+        <span> : </span>
+      </div>
+
+      <div class="col-4">
+        <label for="segundos" class="form-label"> Segundos</label>
+        <input type="number" class="form-control" id="segundos" name="segundos" min="0" value="0">
+      </div>
+
+    </div>
+
+    <div class="row align-items-end mb-3">
+
+      <div class="col-7">
+        <label for=" extra" class="form-label ">Añadir minutos</label>
+        <input type="number" class="form-control w-50 " id="extra"  name="extra">
+      </div>
+
+      <div class="col-4 border border-danger rounded reloj">
+        00:00
+      </div>
+
+    </div>
+
+    <div class="row mb-3">
+
+      <div class="col">
+        <input type="button" value="Añadir" class="btn btn-success">
+      </div>
+
+    </div>
+
+    <div class="row mb-3">
+
+      <div class="col">
+        <label for="textoInicio" class=" form-label ">Texto Inicial</label>
+        <input type="text" class="form-control" id="textoInicio" name="textoInicio">
+      </div>
+
+      <div class="col">
+        <label for="textoFinal" class="form-label"> Texto Final</label>
+        <input type="text" class="form-control" id="textoFinal" name="textoFinal">
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col">
+        <input type="button" class="btn btn-primary" value="Empezar">
+      </div>
+      <div class="col">
+        <input type="button" class="btn btn-secondary" value="Finalizar">
+      </div>
+
+    </div>
+
+
+  </form>
+  <footer class=" mx-4 text-end fs-6">
+    <a href="https://github.com/altaskur/altaskur" class="link-secondary text-decoration-none"> <i
+        class="bi bi-github"></i> altaskur </a>
+    <a href="https://www.twitch.tv/altaskur" class="link-secondary text-decoration-none"><i class="bi bi-twitch"></i>
+      altaskur</a>
+  </footer>
+  <script src="./controller/timmer.js"></script>
+
+  <!-- JavaScript Bundle with Popper -->
+  <script src="./assets/boostrap/js/bootstrap.bundle.js"></script>
+
+</body>
+
+</html>
