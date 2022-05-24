@@ -19,7 +19,7 @@ const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 300,
-    height: 480,
+    height: 465,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
@@ -31,11 +31,11 @@ const createWindow = () => {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
-  //mainWindow.removeMenu();
- // mainWindow.setResizable(false);
+  mainWindow.removeMenu();
+  mainWindow.setResizable(false);
 
   //Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 }
 
 integridadDirectorios;

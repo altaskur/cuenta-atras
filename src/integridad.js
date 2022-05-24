@@ -36,10 +36,6 @@ function inicioDirectorios() {
   // Comprobamos que el directorio existe
   // en el caso contrario lo creamos
 
-
-    console.log("Comprobando ruta principal")
-    console.log(rutaPrincipal)
-
     let existeRuta = fs.existsSync(rutaPrincipal)
     if ( existeRuta === false){
       fs.mkdirSync(rutaPrincipal, function (err, result) {
@@ -51,10 +47,6 @@ function inicioDirectorios() {
 
   // Comprobamos si el archivo de configuración existe
   // en el caso contrario lo creamos
-
-
-    console.log("Comprobando ruta del archivo de configuración")
-    console.log(rutaArchivoConfig);
 
     let existeArchivo = fs.existsSync(rutaArchivoConfig);
 

@@ -19,8 +19,6 @@ async function cargarOpciones() {
         ipcRenderer.once("recibir-opciones", (event, arg) => {
             opciones = arg;
             resolve(arg);
-            console.log("datos:")
-            console.log(arg)
         });
     });
 
@@ -55,34 +53,29 @@ async function cargarOpciones() {
 
     // Pasamos a la variable dato a mostrar el texto inicial
     datoMostrar = textoInicio.value
-    console.log(datoMostrar)
+
 
     textoInicio.addEventListener("keyup", () => {
-        console.log("¿Esta parado? " + estaParado)
-        console.log("¿Esta en el ciclo inicial? " + cicloInicial)
+
         if (estaParado && cicloInicial) {
             datoMostrar = textoInicio.value;
 
             ipcRenderer.send("actualizarTexto", textoInicio.value);
         }
-        console.log(datoMostrar)
     });
 
     // Añadimos las escuchas de evento para los botones
     botonExtra.addEventListener("click", () => {
-        console.log("has pulsado extra");
         let valorExtra = parseInt(campoExtra.value, 10)
         if (isNaN(valorExtra)) {
             valorExtra = 0;
         }
 
         tiempo += (valorExtra * 60);
-        console.log(tiempo)
+
     });
 
     botonEmpezarPausa.addEventListener("click", () => {
-        console.log("has pulado en start stop");
-        console.log("¿Es la primera vez que me inicio? " + cicloInicial)
 
         if (estaParado == true) {
             // Si esta parado lo ponemos en marcha
@@ -113,10 +106,6 @@ async function cargarOpciones() {
 
                 tiempo = min + seg;
 
-                console.log("Minutos: " + min)
-                console.log("Segundos: " + seg)
-                console.log("tiempo total: " + tiempo);
-
                 let opcionesGuardar = {
                     "min": Math.round(parseInt(min, 10) / 60),
                     "seg": seg,
@@ -124,8 +113,6 @@ async function cargarOpciones() {
                     "textoFinal": textoFinal.value,
                     "textoInicio": textoInicio.value
                 }
-
-                console.log(opcionesGuardar)
                 ipcRenderer.send("actualizarOpciones", opcionesGuardar);
             }
             botonEmpezarPausa.value = "Parar";
@@ -153,9 +140,8 @@ async function cargarOpciones() {
         }
 
         ipcRenderer.send("actualizarOpciones", opcionesGuardar);
-
         ipcRenderer.send("actualizarTexto", datoMostrar);
-        console.log("has pulsado finalizar");
+
         tiempo = 0;
         botonEmpezarPausa.value = "Empezar";
         cicloInicial = true;
@@ -165,9 +151,15 @@ async function cargarOpciones() {
     // Ciclo principal del contador cada 1sec
     var t = window.setInterval(() => {
 
-        let min = Math.round((tiempo / 60));
-        min < 60 ? min = 0 : "";
-        min < 10 ? min = "0" + min : "";
+        let min = Math.floor((tiempo / 60));
+
+        if (tiempo < 60) {
+            min = 0
+        }
+
+        if (min < 10) {
+            min = "0" + min
+        }
 
         let sec = Math.round((tiempo % 60));
         sec < 10 ? sec = "0" + sec : "";
@@ -175,7 +167,7 @@ async function cargarOpciones() {
         contenedorReloj.textContent = min + ":" + sec;
 
         cicloInicial == true ? datoMostrar = textoInicio.value : "";
-        console.log(tiempo)
+
         if (!estaParado) {
             if (tiempo <= 0) {
                 estaParado = true;
@@ -184,18 +176,12 @@ async function cargarOpciones() {
                 datoMostrar = textoFinal.value;
                 tiempo = 0;
                 botonEmpezarPausa.value = "Empezar";
-
             } else {
                 tiempo--;
                 datoMostrar = min + ":" + sec;
-                console.log(datoMostrar)
             }
             ipcRenderer.send("actualizarTexto", datoMostrar);
         }
-
-
-
-        console.log(datoMostrar);
 
     }, 1000);
 
@@ -205,7 +191,7 @@ async function cargarOpciones() {
     let enlaces = document.querySelectorAll('a[href]');
 
     enlaces.forEach(enlace => {
-        enlace.addEventListener("click", (event) =>{
+        enlace.addEventListener("click", (event) => {
             event.preventDefault();
             shell.openExternal(enlace.href)
         });

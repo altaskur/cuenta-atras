@@ -31,22 +31,20 @@ function controladorBd() {
         let config = fs.readFileSync(rutaArchivoConfig);
         config = JSON.parse(config);
 
-        console.log(config);
-
         event.reply("recibir-opciones", config);
 
     });
 
     // Escribir en el texto que va a capturar OBS
     ipcMain.on("actualizarTexto", (event, arg) => {
-        console.log(arg) 
+
         fs.writeFileSync(rutaArchivoReloj, arg);
 
     });
 
     // Escribir en las opciones del archivo local
     ipcMain.on("actualizarOpciones", (event, arg) => {
-        console.log(arg) 
+
         arg = JSON.stringify(arg);
         fs.writeFileSync(rutaArchivoConfig, arg);
 
