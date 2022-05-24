@@ -166,6 +166,7 @@ async function cargarOpciones() {
     var t = window.setInterval(() => {
 
         let min = Math.round((tiempo / 60));
+        min < 60 ? min = 0 : "";
         min < 10 ? min = "0" + min : "";
 
         let sec = Math.round((tiempo % 60));
@@ -174,7 +175,7 @@ async function cargarOpciones() {
         contenedorReloj.textContent = min + ":" + sec;
 
         cicloInicial == true ? datoMostrar = textoInicio.value : "";
-
+        console.log(tiempo)
         if (!estaParado) {
             if (tiempo <= 0) {
                 estaParado = true;

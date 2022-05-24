@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "portable": "electron-builder --win portable",
+    "dist":"electron-builder"
   },
   "author": "Altaskur",
   "license": "ISC",
@@ -17,7 +19,8 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
-    "electron": "^18.2.3"
+    "electron": "^18.2.3",
+    "electron-builder": "^23.0.3"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0"
@@ -48,5 +51,9 @@
         }
       ]
     }
+  },
+  "build":{
+      "icon":"./builder/ico.ico"
+    
   }
 }
