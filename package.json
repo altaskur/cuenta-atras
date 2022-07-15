@@ -3,15 +3,23 @@
   "version": "1.0.0",
   "description": "Un contador para OBS",
   "main": "./src/main.js",
-  "scripts": {
+  "homepage": "https://github.com/altaskur/cuentra-atras",
+    "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "portable": "electron-builder --win portable",
-    "dist":"electron-builder"
+    "dist": "electron-builder"
   },
-  "author": "Altaskur",
+  "author": {
+    "name": "Altaskur",
+    "url": "https://github.com/altaskur/altaskur"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altaskur/cuenta-atras"
+  },
   "license": "ISC",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.63",
@@ -52,8 +60,7 @@
       ]
     }
   },
-  "build":{
-      "icon":"./builder/ico.ico"
-    
+  "build": {
+    "icon": "./builder/ico.ico"
   }
 }

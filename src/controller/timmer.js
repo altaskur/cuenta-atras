@@ -151,21 +151,14 @@ async function cargarOpciones() {
     // Ciclo principal del contador cada 1sec
     var t = window.setInterval(() => {
 
-        let min = Math.floor((tiempo / 60));
-
-        if (tiempo < 60) {
-            min = 0
-        }
-
-        if (min < 10) {
-            min = "0" + min
-        }
+        let min = Math.floor(tiempo / 60);
+        tiempo < 60 ? min = 0 : "";
+        min = min < 10 ? "0" + min : "";
 
         let sec = Math.round((tiempo % 60));
         sec < 10 ? sec = "0" + sec : "";
 
         contenedorReloj.textContent = min + ":" + sec;
-
         cicloInicial == true ? datoMostrar = textoInicio.value : "";
 
         if (!estaParado) {
