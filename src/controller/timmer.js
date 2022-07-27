@@ -1,182 +1,182 @@
-const {
-    ipcRenderer
-} = require("electron");
+const { ipcRenderer } = require("electron");
 
 const shell = require('electron').shell
 
-var opciones;
-var estaParado = true;
-var tiempo = 0;
-var cicloInicial = true;
-var datoMostrar;
+configOptions = {};
+clockStopped = true;
+time = 0;
+initialCycle = true;
+initialText = "";
 
 async function cargarOpciones() {
 
-    // Enviamos al proceso principal de ElectronJs la petición de los datos en el 
-    // archivo local y quedamos a la espera de la respuesta.
-    ipcRenderer.send("recibir-opciones", "");
+
+    ipcRenderer.send("requestOptions", "");
     await new Promise((resolve, reject) => { // espera hasta que la promesa se resuelva (*)
-        ipcRenderer.once("recibir-opciones", (event, arg) => {
-            opciones = arg;
+        ipcRenderer.once("getOptions", (event, arg) => {
+            configOptions = arg;
             resolve(arg);
         });
     });
 
 
     // Capturamos los botones
-    let botones = document.querySelectorAll("input[type=button]");
+    let inputButtons = document.querySelectorAll("input[type=button]");
 
-    let botonExtra = botones[0];
-    let botonEmpezarPausa = botones[1];
-    let botonFinalizar = botones[2];
+    let inputButtonTimeExtra = inputButtons[0];
+    let inputButtonStartStop = inputButtons[1];
+    let inputButtonEnd = inputButtons[2];
 
 
     // Capturamos el display
-    let contenedorReloj = document.querySelector(".reloj");
+    let containerClock = document.querySelector(".reloj");
 
     // Capturamos los campos y rellenamos con los datos del .json local
-    let campoMinutos = document.getElementById("minutos");
-    opciones.min != 0 ? campoMinutos.value = parseInt(opciones.min, 10) : " ";
+    let containerMinutes = document.querySelector("#minutos");
+    configOptions.min != 0 ? containerMinutes.value = parseInt(configOptions.min, 10) : null;
 
-    let campoSegundos = document.getElementById("segundos");
-    opciones.min != 0 ? campoSegundos.value = Math.round(parseInt(opciones.seg, 10)) : " ";
+    let containerSeconds = document.querySelector("#segundos");
+    configOptions.min != 0 ? containerSeconds.value = Math.round(parseInt(configOptions.seg, 10)) : null;
 
-    let campoExtra = document.getElementById("extra");
-    opciones.extra != 0 ? campoExtra.value = opciones.extra : campoExtra.value = 0;
+    let containerTimeExtra = document.querySelector("#extra");
+    configOptions.extra != 0 ? containerTimeExtra.value = configOptions.extra : containerTimeExtra.value = 0;
 
-    let textoInicio = document.getElementById("textoInicio");
-    opciones.textoInicio == undefined ? textoInicio.value = " " : textoInicio.value = opciones.textoInicio;
+    let containerInitialText = document.querySelector("#textoInicial");
+    
+    configOptions.InitialText == undefined ? containerInitialText.value = "" : containerInitialText.value = configOptions.InitialText;
 
-    let textoFinal = document.getElementById("textoFinal");
-    opciones.textoFinal == undefined ? textoFinal.value = " " : textoFinal.value = opciones.textoFinal;
+    let containerFinalText = document.querySelector("#textoFinal");
+    configOptions.finalText == undefined ? containerFinalText.value = " " : containerFinalText.value = configOptions.finalText;
 
 
     // Pasamos a la variable dato a mostrar el texto inicial
-    datoMostrar = textoInicio.value
-
-
-    textoInicio.addEventListener("keyup", () => {
-
-        if (estaParado && cicloInicial) {
-            datoMostrar = textoInicio.value;
-
-            ipcRenderer.send("actualizarTexto", textoInicio.value);
+    containerInitialText.addEventListener("keyup", () => {
+        initialText = containerInitialText.value
+        if (clockStopped && initialCycle) {
+            ipcRenderer.send("actualizarTexto", initialText);
         }
     });
 
     // Añadimos las escuchas de evento para los botones
-    botonExtra.addEventListener("click", () => {
-        let valorExtra = parseInt(campoExtra.value, 10)
-        if (isNaN(valorExtra)) {
-            valorExtra = 0;
+    inputButtonTimeExtra.addEventListener("click", () => {
+        let extraTime = parseInt(containerTimeExtra.value, 10);
+
+        if (isNaN(extraTime)) {
+            extraTime = 0;
         }
-
-        tiempo += (valorExtra * 60);
-
+        time += (extraTime * 60);
     });
 
-    botonEmpezarPausa.addEventListener("click", () => {
+    initialCycle == true && clockStopped == true ? ipcRenderer.send("actualizarTexto", configOptions.InitialText) : null;
 
-        if (estaParado == true) {
+    // Ciclo principal del contador cada 1sec
+    function mainLoop() {
+        clock = window.setInterval(() => {
+
+            let min = Math.floor(time / 60);
+            time < 60 ? min = 0 : "";
+            min = min < 10 ? "0" + min : "";
+
+            let sec = Math.round((time % 60));
+            sec < 10 ? sec = "0" + sec : "";
+
+            containerClock.textContent = min + ":" + sec;
+            initialCycle == true ? initialText = containerInitialText.value : "";
+
+            if (!clockStopped) {
+                if (time <= 0 ) {
+                    clockStopped = true;
+                    initialCycle = true;
+                    containerClock.textContent = 0 + ":" + 0;
+                    initialText = containerFinalText.value;
+                    time = 0;
+                    inputButtonStartStop.value = "Empezar";
+                } else {
+                    time--;
+                    initialText = min + ":" + sec;
+                }
+                ipcRenderer.send("actualizarTexto", initialText);
+            }
+
+        }, 1000);
+    }
+
+    inputButtonStartStop.addEventListener("click", () => {
+        // stop set interval
+
+        if (clockStopped == true) {
             // Si esta parado lo ponemos en marcha
-            estaParado = false;
+            clockStopped = false;
+            mainLoop();
+             if (initialCycle) {
 
-            if (cicloInicial) {
-
-                cicloInicial = false;
+                 initialCycle = false;
                 let min;
                 let seg;
 
-                if (isNaN(parseInt(campoMinutos.value, 10))) {
+                if (isNaN(parseInt(containerMinutes.value, 10))) {
                     min = 0;
-                    campoMinutos.value = 0;
+                    containerMinutes.value = 0;
                 } else {
-                    min = parseInt(campoMinutos.value, 10)
+                    min = parseInt(containerMinutes.value, 10)
                 }
                 min = (min * 60);
 
 
-                if (isNaN(parseInt(campoSegundos.value, 10))) {
+                if (isNaN(parseInt(containerSeconds.value, 10))) {
                     seg = 0;
-                    campoSegundos.value = 0;
+                    containerSeconds.value = 0;
 
                 } else {
-                    seg = parseInt(campoSegundos.value, 10)
+                    seg = parseInt(containerSeconds.value, 10)
                 }
 
-                tiempo = min + seg;
+                time = min + seg;
 
                 let opcionesGuardar = {
                     "min": Math.round(parseInt(min, 10) / 60),
                     "seg": seg,
-                    "extra": campoExtra.value,
-                    "textoFinal": textoFinal.value,
-                    "textoInicio": textoInicio.value
+                    "extra": containerTimeExtra.value,
+                    "finalText": containerFinalText.value,
+                    "InitialText": containerInitialText.value
                 }
                 ipcRenderer.send("actualizarOpciones", opcionesGuardar);
-            }
-            botonEmpezarPausa.value = "Parar";
+             }
+            inputButtonStartStop.value = "Parar";
 
         } else {
-            estaParado = true;
-
-            if (cicloInicial) {
-                botonEmpezarPausa.value = "Empezar";
+            clockStopped = true;
+            clearInterval(clock);
+            if (initialCycle) {
+                inputButtonStartStop.value = "Empezar";
             } else {
-                botonEmpezarPausa.value = "Continuar"
+                inputButtonStartStop.value = "Continuar"
             }
         }
 
 
     });
 
-    botonFinalizar.addEventListener("click", () => {
+    inputButtonEnd.addEventListener("click", () => {
+        clearInterval(clock);
         let opcionesGuardar = {
-            "min": campoMinutos.value,
-            "seg": campoSegundos.value,
-            "extra": campoExtra.value,
-            "textoFinal": textoFinal.value,
-            "textoInicio": textoInicio.value
+            "min": containerMinutes.value,
+            "seg": containerSeconds.value,
+            "extra": containerTimeExtra.value,
+            "finalText": containerFinalText.value,
+            "InitialText": containerInitialText.value
         }
 
         ipcRenderer.send("actualizarOpciones", opcionesGuardar);
-        ipcRenderer.send("actualizarTexto", datoMostrar);
+        ipcRenderer.send("actualizarTexto", containerFinalText.value);
 
-        tiempo = 0;
-        botonEmpezarPausa.value = "Empezar";
-        cicloInicial = true;
+        time = 0;
+        inputButtonStartStop.value = "Empezar";
+        initialCycle = true;
     });
 
 
-    // Ciclo principal del contador cada 1sec
-    var t = window.setInterval(() => {
 
-        let min = Math.floor(tiempo / 60);
-        tiempo < 60 ? min = 0 : "";
-        min = min < 10 ? "0" + min : "";
-
-        let sec = Math.round((tiempo % 60));
-        sec < 10 ? sec = "0" + sec : "";
-
-        contenedorReloj.textContent = min + ":" + sec;
-        cicloInicial == true ? datoMostrar = textoInicio.value : "";
-
-        if (!estaParado) {
-            if (tiempo <= 0) {
-                estaParado = true;
-                cicloInicial = true;
-                contenedorReloj.textContent = 0 + ":" + 0;
-                datoMostrar = textoFinal.value;
-                tiempo = 0;
-                botonEmpezarPausa.value = "Empezar";
-            } else {
-                tiempo--;
-                datoMostrar = min + ":" + sec;
-            }
-            ipcRenderer.send("actualizarTexto", datoMostrar);
-        }
-
-    }, 1000);
 
     // Hacemos que se abran los links en el navegador
     // predeterminado del equipo cliente.

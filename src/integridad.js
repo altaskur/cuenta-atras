@@ -2,20 +2,12 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 
-// Comprobar el sistema operativo
-// Buscar en C: o en /home/user en el caso de ser linux
-// la carpeta del programa, en el caso de no encontrarla la creará
-
-
-// Pertenece a S.O Windows de forma predeterminada
-var rutaPrincipal = path.join("C:", "cuenta_atras");
-
 // Constantes de plataforma
-const sistemaOperativo = os.platform();
-const homeUsuario = os.homedir();
+const _OS_PLATFORM = os.platform();
+const _USER_HOME = os.homedir();
 
 // configuración predeterminada
-var opciones = {
+options = {
   "min": 0,
   "seg": 0,
   "extra": 0,
@@ -23,40 +15,38 @@ var opciones = {
   "textoFinal": ""
 }
 
+function setPath() {
+  rootPath = _OS_PLATFORM == "linux" ? path.join(_USER_HOME, "cuenta_atras") : path.join("C:", "cuenta_atras");
+  return rootPath;
+}
 
-function inicioDirectorios() {
+appPath = setPath();
+configFilePath = path.join(appPath, "cuenta_atras.conf");
+ 
+function createConfigFile(configFilePath) {
 
-  // Cambio de ruta si es un sistema Linux
-  if (sistemaOperativo == "linux") {
-    rutaPrincipal = homeUsuario + "/cuenta_atras";
+  function _createDirectory(path) {
+    try {
+      fs.statSync(path);
+    } catch (e) {
+      fs.mkdirSync(path);
+    }
   }
 
-  var rutaArchivoConfig = path.join(rutaPrincipal, "cuenta_atras.conf");
-
-  // Comprobamos que el directorio existe
-  // en el caso contrario lo creamos
-
-    let existeRuta = fs.existsSync(rutaPrincipal)
-    if ( existeRuta === false){
-      fs.mkdirSync(rutaPrincipal, function (err, result) {
-        if (err) console.log(result);
-        return false;
-      });
+  function _createConfigFile(path, options) {
+    try {
+      fs.statSync(path);
+    } catch (e) {
+      options = JSON.stringify(options, null, 2);
+      fs.writeFileSync(path, options, "utf-8");
     }
- 
+  }
 
-  // Comprobamos si el archivo de configuración existe
-  // en el caso contrario lo creamos
-
-    let existeArchivo = fs.existsSync(rutaArchivoConfig);
-
-    if ( existeArchivo === false ){
-      opciones = JSON.stringify(opciones, null, 2);
-      fs.writeFileSync(rutaArchivoConfig, opciones, "utf-8");
-
-    }
-
+  _createDirectory(appPath);
+  _createConfigFile(configFilePath, options);
 
 }
 
-exports.integridadDirectorios = inicioDirectorios();
+exports.createConfigFile = createConfigFile(configFilePath);
+exports.appPath = appPath;
+exports.configFilePath = configFilePath;

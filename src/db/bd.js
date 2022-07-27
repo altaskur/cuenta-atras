@@ -1,57 +1,35 @@
 const fs = require("fs");
 const path = require("path");
-const os = require("os");
+
 const { ipcMain } = require("electron");
+const { appPath, configFilePath } = require("../integridad");
 
-// Comprobar el sistema operativo
-// Buscar en C: o en /home/user en el caso de ser linux
-// la carpeta del programa, en el caso de no encontrarla la creará
+clockFilePath = path.join(appPath,"reloj.txt")
 
-
-// Pertenece a S.O Windows de forma predeterminada
-var rutaPrincipal = path.join("C:", "cuenta_atras");
-
-// Constantes de plataforma
-const sistemaOperativo = os.platform();
-const homeUsuario = os.homedir();
-
-// Cambio de ruta si es un sistema Linux
-if (sistemaOperativo == "linux") {
-    rutaPrincipal = homeUsuario + "/cuenta_atras";
-}
-
-var rutaArchivoConfig = path.join(rutaPrincipal, "cuenta_atras.conf");
-var rutaArchivoReloj = path.join(rutaPrincipal,"reloj.txt")
-
-function controladorBd() {
+function bdController() {
 
     // Recibir las opciones del archivo local
-    ipcMain.on("recibir-opciones", (event, arg) => {
+    ipcMain.on("requestOptions", (event, arg) => {
         
-        let config = fs.readFileSync(rutaArchivoConfig);
-        config = JSON.parse(config);
-
-        event.reply("recibir-opciones", config);
+        let config =  JSON.parse(fs.readFileSync(configFilePath));
+        event.reply("getOptions", config);
 
     });
 
     // Escribir en el texto que va a capturar OBS
     ipcMain.on("actualizarTexto", (event, arg) => {
 
-        fs.writeFileSync(rutaArchivoReloj, arg);
+        fs.writeFileSync(clockFilePath, arg);
 
     });
 
     // Escribir en las opciones del archivo local
     ipcMain.on("actualizarOpciones", (event, arg) => {
 
-        arg = JSON.stringify(arg);
-        fs.writeFileSync(rutaArchivoConfig, arg);
+        fs.writeFileSync(configFilePath, JSON.stringify(arg));
 
     });
-       
-        
    
 }
 
-exports.controladorBd = controladorBd();
+exports.controladorBd = bdController();
