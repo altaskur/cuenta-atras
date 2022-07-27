@@ -1,14 +1,16 @@
 {
   "name": "cuentra-atras",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Un contador para OBS",
   "main": "./src/main.js",
   "homepage": "https://github.com/altaskur/cuentra-atras",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
+    "start": "electron-forge start",
     "portable": "electron-builder --win portable",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "author": {
     "name": "Altaskur",
@@ -20,17 +22,22 @@
   },
   "license": "ISC",
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.65",
+    "@electron-forge/maker-deb": "^6.0.0-beta.65",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.65",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.65",
+    "@electron-forge/maker-zip": "^6.0.0-beta.65",
     "electron": "^19.0.9"
   },
-  "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
-  },
+
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "./src/assets/ico.ico"
+      },
       "makers": [
         {
-          "name": "@electron-forge/maker-squirrel",
+          "name": "@electron-forge/maker-wix",
           "config": {
             "name": "cuentra_atras"
           }
@@ -53,6 +60,18 @@
     }
   },
   "build": {
-    "icon": "./builder/ico.ico"
+    "icon": "./builder/ico.ico",
+    "appId": "cuentra-atras",
+    "win":{
+      "target": ["nsis"],
+      "icon": "./builder/ico.ico"
+    },
+    "nsis":{
+      "installerIcon": "./builder/ico.ico",
+      "oneClick":false,
+      "allowToChangeInstallationDirectory": true
+      
+    
+    }
   }
 }

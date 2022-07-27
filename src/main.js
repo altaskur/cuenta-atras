@@ -13,6 +13,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 300,
     height: 465,
+    icon: path.join(__dirname, './assets/ico.ico'),
     webPreferences: {
       // preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
@@ -27,7 +28,7 @@ const createWindow = () => {
   mainWindow.setResizable(false);
 
   //Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 }
 
 

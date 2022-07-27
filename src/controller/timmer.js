@@ -126,11 +126,9 @@ async function cargarOpciones() {
                 if (isNaN(parseInt(containerSeconds.value, 10))) {
                     seg = 0;
                     containerSeconds.value = 0;
-
                 } else {
                     seg = parseInt(containerSeconds.value, 10)
                 }
-
                 time = min + seg;
 
                 let opcionesGuardar = {
@@ -147,11 +145,7 @@ async function cargarOpciones() {
         } else {
             clockStopped = true;
             clearInterval(clock);
-            if (initialCycle) {
-                inputButtonStartStop.value = "Empezar";
-            } else {
-                inputButtonStartStop.value = "Continuar"
-            }
+            initialCycle ? inputButtonStartStop.value = "Empezar" : inputButtonStartStop.value = "Continuar";
         }
 
 
@@ -174,8 +168,6 @@ async function cargarOpciones() {
         inputButtonStartStop.value = "Empezar";
         initialCycle = true;
     });
-
-
 
 
     // Hacemos que se abran los links en el navegador
