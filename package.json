@@ -20,8 +20,7 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "electron": "^6.1.12",
-    "electron-builder": "^5.5.0"
+    "electron": "^19.0.9"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0"
