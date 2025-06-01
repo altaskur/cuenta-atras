@@ -3,7 +3,7 @@
 [<img src="https://img.shields.io/github/last-commit/altaskur/cuenta-atras?style=for-the-badge"></img>](https://github.com/altaskur/cuenta-atras/commits/main)
 [<img src="https://img.shields.io/github/license/altaskur/cuenta-atras?style=for-the-badge">](https://github.com/altaskur/cuenta-atras/blob/main/LICENSE)
 [<img src="https://img.shields.io/github/languages/top/altaskur/cuenta-atras?style=for-the-badge">](https://github.com/altaskur/cuenta-atras)
-[<img src="https://img.shields.io/github/v/tag/altaskur/cuenta-atras?label=Release&style=for-the-badge">](https://github.com/altaskur/cuenta-atras/releases/tag/v1.0.1)
+[<img src="https://img.shields.io/github/v/tag/altaskur/cuenta-atras?label=Release&style=for-the-badge">](https://github.com/altaskur/cuenta-atras/releases/tag/v1.2.0)
 
 **cuenta-atras** es una aplicación de escritorio hecha en **Electron.js** que genera archivos de texto para facilitar la integración de una cuenta regresiva personalizada en **OBS Studio**.
 
