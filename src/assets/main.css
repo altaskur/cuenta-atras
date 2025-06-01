@@ -7,3 +7,28 @@
     padding: 5px;
     text-align: center;
 }
+
+.custom-toast {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 220px;
+  max-width: 90vw;
+  background: #222;
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 1rem;
+  z-index: 9999;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  opacity: 0.97;
+  text-align: center;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  display: none;
+}
+.custom-toast.show {
+  display: block;
+  opacity: 0.97;
+}

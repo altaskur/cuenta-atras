@@ -1,35 +1,29 @@
 const fs = require("fs");
 const path = require("path");
-
-const { ipcMain } = require("electron");
 const { appPath, configFilePath } = require("../integridad");
 
-clockFilePath = path.join(appPath,"reloj.txt")
+const tituloFilePath = path.join(appPath, "titulo.txt");
+const descripcionFilePath = path.join(appPath, "descripcion.txt");
+const clockFilePath = path.join(appPath, "clock.txt"); 
 
-function bdController() {
-
-    // Recibir las opciones del archivo local
-    ipcMain.on("requestOptions", (event, arg) => {
-        
-        let config =  JSON.parse(fs.readFileSync(configFilePath));
-        event.reply("getOptions", config);
-
-    });
-
-    // Escribir en el texto que va a capturar OBS
-    ipcMain.on("actualizarTexto", (event, arg) => {
-
-        fs.writeFileSync(clockFilePath, arg);
-
-    });
-
-    // Escribir en las opciones del archivo local
-    ipcMain.on("actualizarOpciones", (event, arg) => {
-
-        fs.writeFileSync(configFilePath, JSON.stringify(arg));
-
-    });
-   
+function guardarTextoClock(texto) {
+  fs.writeFileSync(clockFilePath, texto, "utf8");
 }
 
-exports.controladorBd = bdController();
+function guardarTituloDescripcion(titulo, descripcion) {
+  fs.writeFileSync(tituloFilePath, titulo || "", "utf8");
+  fs.writeFileSync(descripcionFilePath, descripcion || "", "utf8");
+}
+
+function leerTituloDescripcion() {
+  const titulo = fs.existsSync(tituloFilePath) ? fs.readFileSync(tituloFilePath, "utf8") : "";
+  const descripcion = fs.existsSync(descripcionFilePath) ? fs.readFileSync(descripcionFilePath, "utf8") : "";
+  return { titulo, descripcion };
+}
+
+module.exports = {
+  guardarTextoClock,
+  guardarTituloDescripcion,
+  leerTituloDescripcion,
+  configFilePath
+};

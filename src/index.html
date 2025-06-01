@@ -1,108 +1,186 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./assets/boostrap/css/bootstrap.css" />
 
-  <meta charset="UTF-8">
-  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap-icons -->
+    <link
+      rel="stylesheet"
+      href="./assets/bootstrap-icons-1.8.2/bootstrap-icons-1.8.2/bootstrap-icons.css"
+    />
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="./assets/boostrap/css/bootstrap.css">
+    <!-- hoja de estilos propia -->
+    <link rel="stylesheet" href="./assets/main.css" />
 
-  <!-- Bootstrap-icons -->
-  <link rel="stylesheet" href="./assets/bootstrap-icons-1.8.2/bootstrap-icons-1.8.2/bootstrap-icons.css">
+    <title>Cuenta atrás</title>
+  </head>
 
-  <!-- hoja de estilos propia -->
-  <link rel="stylesheet" href="./assets/main.css">
+  <body>
+    <div class="container-fluid">
+      <form class="pb-0 g-3 align-items-stretch h-100">
+        <div class="row">
+          <section class="timmer col-6 p-4 h-100">
+            <!-- Contenido de la columna izquierda -->
+            <div class="row mb-3">
+              <div class="col d-flex flex-column">
+                <label for="minutos" class="form-label">Minutos</label>
+                <input
+                  type="number"
+                  class="form-control text-end"
+                  id="minutos"
+                  name="minutos"
+                  min="0"
+                  value="0"
+                  required
+                  aria-label="Minutos para la cuenta atrás"
+                />
+              </div>
+              <div class="col-auto d-flex align-items-end justify-content-center pb-1">
+                <span class="fs-4">:</span>
+              </div>
+              <div class="col d-flex flex-column">
+                <label for="segundos" class="form-label">Segundos</label>
+                <input
+                  type="number"
+                  class="form-control text-end"
+                  id="segundos"
+                  name="segundos"
+                  min="0"
+                  max="59"
+                  value="0"
+                  required
+                  aria-label="Segundos para la cuenta atrás"
+                />
+              </div>
+            </div>
+            <div class="row align-items-end mb-3">
+              <fieldset
+                class="col-12 d-flex flex-row gap-3 align-items-end"
+                aria-label="Añadir minutos extra"
+              >
+                <div class="flex-fill">
+                  <label for="extra" class="form-label">Añadir/Quitar minutos</label>
+                  <input
+                    type="number"
+                    class="form-control w-50"
+                    id="extra"
+                    name="extra"
+                    aria-label="Minutos para añadir o quitar (valores negativos restan tiempo)"
+                  />
+                </div>
+                <div
+                  class="border border-danger rounded reloj text-center px-3 py-2"
+                  aria-live="polite"
+                  aria-atomic="true"
+                  id ="reloj"
+                >
+                  00:00
+                </div>
+              </fieldset>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <input type="button" value="Aplicar" class="btn btn-success" id="btnAnadir" />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="textoInicio" class="form-label">Texto Inicial</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="textoInicial"
+                  name="textoInicio"
+                />
+              </div>
+              <div class="col">
+                <label for="textoFinal" class="form-label">Texto Final</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="textoFinal"
+                  name="textoFinal"
+                />
+              </div>
+            </div>
+          </section>
+          <section class="title col-6 d-flex flex-column border-start p-4 h-100">
+            <div class="row mb-3">
+              <label for="tituloDirecto" class="form-label">Título del directo</label>
+              <input
+                type="text"
+                class="form-control"
+                id="tituloDirecto"
+                name="tituloDirecto"
+                placeholder="Escribe el título del directo"
+              />
+            </div>
+            <div class="row mb-3">
+              <label for="descripcionDirecto" class="form-label">Descripción</label>
+              <textarea
+                class="form-control"
+                id="descripcionDirecto"
+                name="descripcionDirecto"
+                rows="4"
+                placeholder="Escribe una descripción para el directo"
+              ></textarea>
+            </div>
+            <div class="flex-grow-1"></div>
+            <div id="mensajeErrorTituloDesc" class="text-danger mt-2 d-none"></div>
+          </section>
+        </div>
+        <div class="row mb-4">
+          <div class="col-12 d-flex justify-content-between align-items-center">
+            <!-- Botones del timmer alineados a la izquierda -->
+            <div class="d-flex gap-3">
+              <input type="button" class="btn btn-primary" id="btnEmpezar" value="Empezar" />
+              <input type="button" class="btn btn-secondary" id="btnFinalizar" value="Finalizar" />
+            </div>
 
-  <title>Cuenta atrás</title>
-</head>
-
-<body>
-
-  <form class="m-4">
-
-    <div class="row d-flex align-items-end mb-3">
-
-      <div class="col-4">
-        <label for="minutos" class="form-label"> Minutos</label>
-        <input type="number" class="form-control" id="minutos" name="minutos" min="0" value="0">
-      </div>
-
-      <div class="col-1 text-center">
-        <span> : </span>
-      </div>
-
-      <div class="col-4">
-        <label for="segundos" class="form-label"> Segundos</label>
-        <input type="number" class="form-control" id="segundos" name="segundos" min="0" value="0">
-      </div>
-
+            <div>
+              <button
+                type="button"
+                class="btn btn-info"
+                id="btnEstablecerTituloDesc"
+              >
+                Establecer título y descripción
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
-
-    <div class="row align-items-end mb-3">
-
-      <div class="col-7">
-        <label for=" extra" class="form-label ">Añadir minutos</label>
-        <input type="number" class="form-control w-50 " id="extra"  name="extra">
-      </div>
-
-      <div class="col-4 border border-danger rounded reloj">
-        00:00
-      </div>
-
-    </div>
-
-    <div class="row mb-3">
-
-      <div class="col">
-        <input type="button" value="Añadir" class="btn btn-success">
-      </div>
-
-    </div>
-
-    <div class="row mb-3">
-
-      <div class="col">
-        <label for="textoInicio" class=" form-label ">Texto Inicial</label>
-        <input type="text" class="form-control" id="textoInicial" name="textoInicio">
-      </div>
-
-      <div class="col">
-        <label for="textoFinal" class="form-label"> Texto Final</label>
-        <input type="text" class="form-control" id="textoFinal" name="textoFinal">
-      </div>
-
-    </div>
-
-    <div class="row">
-
-      <div class="col">
-        <input type="button" class="btn btn-primary" value="Empezar">
-      </div>
-      <div class="col">
-        <input type="button" class="btn btn-secondary" value="Finalizar">
-      </div>
-
-    </div>
-
-
-  </form>
-  <footer class=" mx-4 text-end fs-6">
-    <a href="https://github.com/altaskur/altaskur" class="link-secondary text-decoration-none"> <i
-        class="bi bi-github"></i> altaskur </a>
-    <a href="https://www.twitch.tv/altaskur" class="link-secondary text-decoration-none"><i class="bi bi-twitch"></i>
-      altaskur</a>
-  </footer>
-  <script src="./controller/timmer.js"></script>
-
-  <!-- JavaScript Bundle with Popper -->
-  <script src="./assets/boostrap/js/bootstrap.bundle.js"></script>
-
-</body>
-
+    <!-- Contenedor para el toast personalizado -->
+    <div id="custom-toast" class="custom-toast"></div>
+    <footer class="mx-2 text-end fs-6">
+      <a
+        href="https://github.com/altaskur/altaskur"
+        class="link-secondary text-decoration-none"
+      >
+        <i class="bi bi-github"></i> altaskur
+      </a>
+      <a
+        href="https://www.twitch.tv/altaskur"
+        class="link-secondary text-decoration-none"
+        ><i class="bi bi-twitch"></i> altaskur</a
+      >
+    </footer>
+    <script src="./controller/timmer.js"></script>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="./assets/boostrap/js/bootstrap.bundle.js"></script>
+  </body>
 </html>
