@@ -1,12 +1,11 @@
+# ⏳ cuenta-atras
 
-# ⏳ cuenta-atrás
+[<img src="https://img.shields.io/github/last-commit/altaskur/cuenta-atras?style=for-the-badge"></img>](https://github.com/altaskur/cuenta-atras/commits/main)
+[<img src="https://img.shields.io/github/license/altaskur/cuenta-atras?style=for-the-badge">](https://github.com/altaskur/cuenta-atras/blob/main/LICENSE)
+[<img src="https://img.shields.io/github/languages/top/altaskur/cuenta-atras?style=for-the-badge">](https://github.com/altaskur/cuenta-atras)
+[<img src="https://img.shields.io/github/v/tag/altaskur/cuenta-atras?label=Release&style=for-the-badge">](https://github.com/altaskur/cuenta-atras/releases/tag/v1.0.1)
 
-[<img src="https://img.shields.io/github/last-commit/altaskur/cuenta-atras?style=for-the-badge">](https://github.com/altaskur/cuenta-atras/commits/main)  
-[<img src="https://img.shields.io/github/license/altaskur/cuenta-atras?style=for-the-badge">](https://github.com/altaskur/cuenta-atras/blob/main/LICENSE)  
-[<img src="https://img.shields.io/github/languages/top/altaskur/cuenta-atras?style=for-the-badge">](https://github.com/altaskur/cuenta-atras)  
-[<img src="https://img.shields.io/github/v/tag/altaskur/cuenta-atras?label=Release&style=for-the-badge">](https://github.com/altaskur/cuenta-atras/releases)
-
-**cuenta-atrás** es una aplicación de escritorio hecha en **Electron.js** que genera archivos de texto para facilitar la integración de una cuenta regresiva personalizada en **OBS Studio**.
+**cuenta-atras** es una aplicación de escritorio hecha en **Electron.js** que genera archivos de texto para facilitar la integración de una cuenta regresiva personalizada en **OBS Studio**.
 
 Ideal para streamers que quieren mostrar un temporizador, título y descripción dinámicamente en sus escenas.
 
@@ -61,7 +60,7 @@ Ideal para streamers que quieren mostrar un temporizador, título y descripción
 
 Los archivos generados se almacenan en:
 
-```bash
+```
 C:/cuenta-atras/
 ├── reloj.txt         # Cuenta atrás en tiempo real
 ├── titulo.txt        # Título del directo
@@ -86,6 +85,6 @@ Este proyecto está disponible bajo la licencia [MIT](https://github.com/altasku
 
 ## 🌐 Socials
 
-[<img src="https://img.shields.io/github/followers/altaskur?label=GitHub&color=inactive&logo=Github&style=flat-square">](https://github.com/altaskur)  
-[<img src="https://img.shields.io/twitter/follow/altaskur?label=Twitter&logo=Twitter&style=flat-square">](https://twitter.com/altaskur)  
-[<img src="https://img.shields.io/twitch/status/altaksur?label=Twitch%20-%20stream&logo=twitch&style=flat-square">](https://www.twitch.tv/altaskur)
+[<img src="https://img.shields.io/github/followers/altaskur?label=GitHub&color=inactive&logo=Github&style=flat-square"></img>](https://github.com/altaskur)
+[<img src="https://img.shields.io/twitter/follow/altaskur?label=Twitter&logo=Twitter&style=flat-square"></img>](https://twitter.com/Altaskur)
+[<img src="https://img.shields.io/twitch/status/altaksur?label=Twitch - stream &logo=twitch&style=flat-square"></img>](https://www.twitch.tv/altaskur)
